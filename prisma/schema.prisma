@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id(map: "User_pkey") @default(uuid())
+  name     String
+  email    String @unique(map: "User_email_key")
+  password String
+
+  @@map("users")
+}
+model Collection {
+  id         String     @id @default(uuid())
+  name       String
+  createdAt  DateTime   @default(now())
+  flashcards Flashcard[]
+}
+
+model Flashcard {
+  id           String     @id @default(uuid())
+  question     String
+  answer       String
+  createdAt    DateTime   @default(now())
+  collectionId String
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+}
