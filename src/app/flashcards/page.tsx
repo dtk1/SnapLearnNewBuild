@@ -9,7 +9,6 @@ export default function GenerateFlashcardsPage() {
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
 
-  // Функция для генерации флеш-карточек (Теперь отправляет запрос прямо на Railway)
   const generateFlashcards = async () => {
     if (!note.trim()) {
       alert("Please enter a note to generate flashcards.");
@@ -37,7 +36,6 @@ export default function GenerateFlashcardsPage() {
     }
   };
 
-  // Функция для сохранения флеш-карточек
   const saveFlashcards = async () => {
     if (flashcards.length === 0) {
       alert("No flashcards to save!");
@@ -75,7 +73,7 @@ export default function GenerateFlashcardsPage() {
 
       {!flashcards.length && (
         <>
-          {/* Поле ввода заметок */}
+          {/* Text input */}
           <textarea
             className="w-[500px] h-[150px] border border-gray-300 rounded-lg p-4 shadow-md"
             placeholder="Enter your notes here..."
@@ -85,7 +83,7 @@ export default function GenerateFlashcardsPage() {
           <label className="mt-4 font-semibold text-[#274060]">
             Enter the number of flashcards:
           </label>
-          {/* Поле выбора количества карточек */}
+          {/* Number input */}
           <input
             type="number"
             min="1"
@@ -95,7 +93,7 @@ export default function GenerateFlashcardsPage() {
             className="mt-4 w-32 text-center border border-gray-300 rounded-lg py-2 px-4 shadow-md"
           />
 
-          {/* Кнопка генерации */}
+          {/* Generate button */}
           <button
             onClick={generateFlashcards}
             className="mt-4 bg-[#274060] text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-gray-700 transition-all shadow-md hover:shadow-lg"
@@ -106,7 +104,7 @@ export default function GenerateFlashcardsPage() {
         </>
       )}
 
-      {/* Отображение сгенерированных карточек */}
+      {/* Generated cards view */}
       {flashcards.length > 0 && (
         <div className="mt-6 w-[500px] bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Generated Flashcards:</h2>
@@ -119,7 +117,7 @@ export default function GenerateFlashcardsPage() {
             ))}
           </ul>
 
-          {/* Кнопка сохранения карточек */}
+          {/* Save button */}
           {!saved && (
             <button
               onClick={saveFlashcards}

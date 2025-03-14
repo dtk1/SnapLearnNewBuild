@@ -10,7 +10,7 @@ export async function GET() {
     });
 
     return NextResponse.json({ flashcards });
-  } catch (error: unknown) { // 🔹 Use `unknown` instead of `any`
+  } catch (error: unknown) { 
     let errorMessage = "An unknown error occurred.";
 
     if (error instanceof Error) {

@@ -19,7 +19,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }
 
   if (!session) {
-    return null; // Ждём редирект
+    return null; 
   }
 
   return <>{children}</>;

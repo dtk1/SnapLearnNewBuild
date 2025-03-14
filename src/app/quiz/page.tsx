@@ -27,14 +27,14 @@ export default function QuizPage() {
 
       if (data.success && Array.isArray(data.questions)) {
         console.log("✅ Questions received:", data.questions);
-        setQuestions(data.questions); // ✅ FIXED: No extra `.questions` nesting
+        setQuestions(data.questions);
       } else {
         alert("❌ Failed to generate quiz questions.");
-        setQuestions([]); // Prevents crash
+        setQuestions([]); 
       }
     } catch (error) {
       console.error("❌ Error generating questions:", error);
-      setQuestions([]); // Prevents crash
+      setQuestions([]); 
     } finally {
       setLoading(false);
     }

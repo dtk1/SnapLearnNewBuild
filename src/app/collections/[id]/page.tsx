@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation"; // ✅ Use this instead of params prop
+import { useParams } from "next/navigation"; 
 
 export default function ViewCollectionPage() {
-  const { id } = useParams(); // ✅ Get id dynamically
+  const { id } = useParams(); 
   const [flashcards, setFlashcards] = useState<{ question: string; answer: string }[]>([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function ViewCollectionPage() {
       }
     };
 
-    if (id) fetchFlashcards(); // ✅ Prevent fetching if id is undefined
+    if (id) fetchFlashcards(); 
   }, [id]);
 
   if (!id) {

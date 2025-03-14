@@ -6,16 +6,14 @@ const prisma = new PrismaClient();
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("📌 Received request body:", body); // Debug log
+    console.log("📌 Received request body:", body); 
 
     const { collectionName, flashcards } = body;
 
-    // Validate input
     if (!collectionName || !flashcards || !Array.isArray(flashcards) || flashcards.length === 0) {
       return NextResponse.json({ error: "Invalid input: collectionName and flashcards array are required" }, { status: 400 });
     }
 
-    // Create the collection
     const savedCollection = await prisma.collection.create({
       data: {
         name: collectionName,
