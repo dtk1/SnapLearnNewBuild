@@ -35,7 +35,7 @@ export default function CollectionViewPage() {
   useEffect(() => {
     async function fetchCollection() {
       try {
-        const response = await fetch(`/api/get-collections`)
+        const response = await fetch(`/api/load-flashcards`)
         const data = await response.json()
         if (data.success) {
           const collection: Collection | undefined = data.collections.find((col: Collection) => col.id === id)
