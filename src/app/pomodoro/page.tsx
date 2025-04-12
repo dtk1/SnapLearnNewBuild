@@ -328,8 +328,8 @@ export default function PomodoroPage() {
             <Card className="shadow-lg">
               <CardHeader className="pb-2">
                 <div className="flex justify-center">
-                <Tabs defaultValue="focus" onValueChange={(value) => changeMode(value)}>
-  <TabsList className="grid grid-cols-3 w-full max-w-md">
+                <Tabs defaultValue="focus" onValueChange={(value) => changeMode(value as TimerMode)}>
+                <TabsList className="grid grid-cols-3 w-full max-w-md">
     <TabsTrigger
       value="focus"
       className={mode === "focus" ? "bg-[#1E3A5F] text-white" : ""}
