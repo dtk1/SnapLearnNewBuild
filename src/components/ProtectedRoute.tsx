@@ -1,26 +1,29 @@
-"use client";
+"use client"
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import type React from "react"
+
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session, status } = useSession()
+  const router = useRouter()
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/login");
+      router.push("/login")
     }
-  }, [status, router]);
+  }, [status, router])
 
   if (status === "loading") {
-    return <p className="text-center">Загрузка...</p>;
+    return <p className="text-center">Загрузка...</p>
   }
 
   if (!session) {
-    return null; 
+    return null
   }
 
-  return <>{children}</>;
+  return <>{children}</>
 }
+

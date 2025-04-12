@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "SnapLearn - Флэшкарточки и экзамены с AI",
@@ -7,4 +7,5 @@ export const metadata: Metadata = {
     title: "SnapLearn - Умные учебные карточки и тесты",
     description: "Используй AI для подготовки к экзаменам и создания тестов.",
   },
-};
+}
+

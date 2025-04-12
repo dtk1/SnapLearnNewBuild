@@ -8,18 +8,28 @@ datasource db {
 }
 
 model User {
-  id       String @id(map: "User_pkey") @default(uuid())
-  name     String
-  email    String @unique(map: "User_email_key")
-  password String
+  id                String            @id @default(uuid())
+  name              String
+  email             String            @unique
+  password          String
+
+  collections       Collection[]
+  tasks             Task[]
+  pomodoroSessions  PomodoroSession[]
+  quizHistories     QuizHistory[] 
+
 
   @@map("users")
 }
+
 model Collection {
   id         String     @id @default(uuid())
   name       String
   createdAt  DateTime   @default(now())
   flashcards Flashcard[]
+  
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Flashcard {
@@ -29,4 +39,31 @@ model Flashcard {
   createdAt    DateTime   @default(now())
   collectionId String
   collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id        String   @id @default(uuid())
+  text      String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PomodoroSession {
+  id        String   @id @default(uuid())
+  mode      String   // focus, shortBreak, longBreak
+  duration  Int      // duration in seconds
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model QuizHistory {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  score     Int
+  totalQuestions Int
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  details   Json
 }

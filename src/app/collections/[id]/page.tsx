@@ -1,32 +1,32 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation"; 
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
 
 export default function ViewCollectionPage() {
-  const { id } = useParams(); 
-  const [flashcards, setFlashcards] = useState<{ question: string; answer: string }[]>([]);
+  const { id } = useParams()
+  const [flashcards, setFlashcards] = useState<{ question: string; answer: string }[]>([])
 
   useEffect(() => {
     const fetchFlashcards = async () => {
       try {
-        const response = await fetch(`/api/get-flashcards?collectionId=${id}`);
-        const data = await response.json();
-        setFlashcards(data.flashcards);
+        const response = await fetch(`/api/get-flashcards?collectionId=${id}`)
+        const data = await response.json()
+        setFlashcards(data.flashcards)
       } catch (error) {
-        console.error("❌ Error fetching flashcards:", error);
+        console.error("❌ Error fetching flashcards:", error)
       }
-    };
+    }
 
-    if (id) fetchFlashcards(); 
-  }, [id]);
+    if (id) fetchFlashcards()
+  }, [id])
 
   if (!id) {
-    return <p className="text-center mt-10 text-red-500">Invalid collection ID</p>;
+    return <p className="text-center mt-10 text-red-500">Invalid collection ID</p>
   }
 
   if (flashcards.length === 0) {
-    return <p className="text-center mt-10">Loading flashcards...</p>;
+    return <p className="text-center mt-10">Loading flashcards...</p>
   }
 
   return (
@@ -39,5 +39,6 @@ export default function ViewCollectionPage() {
         </div>
       ))}
     </div>
-  );
+  )
 }
+

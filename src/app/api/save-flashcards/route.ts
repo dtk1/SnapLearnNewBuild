@@ -1,30 +1,49 @@
-import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { NextResponse } from "next/server"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import prisma from "@/lib/prisma"
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    console.log("📌 Received request body:", body); 
+    const session = await getServerSession(authOptions)
 
-    const { collectionName, flashcards } = body;
-
-    if (!collectionName || !flashcards || !Array.isArray(flashcards) || flashcards.length === 0) {
-      return NextResponse.json({ error: "Invalid input: collectionName and flashcards array are required" }, { status: 400 });
+    // Проверяем сессию
+    if (!session || !session.user?.email) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const savedCollection = await prisma.collection.create({
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+    })
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    }
+
+    const body = await req.json()
+    const { collectionName, flashcards } = body
+
+    if (!collectionName || !flashcards || !Array.isArray(flashcards)) {
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 })
+    }
+
+    // Создаём коллекцию вместе с карточками
+    const collection = await prisma.collection.create({
       data: {
         name: collectionName,
-        flashcards: { create: flashcards.map(f => ({ question: f.question, answer: f.answer })) },
+        userId: user.id,
+        flashcards: {
+          create: flashcards.map((card: any) => ({
+            question: card.question,
+            answer: card.answer,
+          })),
+        },
       },
-    });
+    })
 
-    console.log("✅ Successfully saved collection:", savedCollection);
-    return NextResponse.json({ success: true, savedCollection });
+    return NextResponse.json({ success: true, collection })
   } catch (error) {
-    console.error("❌ Error saving flashcards:", error);
-    return NextResponse.json({ error: "Failed to save flashcards" }, { status: 500 });
+    console.error("❌ Save flashcards error:", error)
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 })
   }
 }
